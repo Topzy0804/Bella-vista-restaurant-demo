@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./../css/menu.css";
 
 const menuData = {
@@ -164,6 +164,14 @@ const menuData = {
 const Menu = () => {
   const [menu, setMenu] = useState([]);
   const [activeTab, setActiveTab] = useState("all");
+
+  useEffect(() => {
+    const allItems = [];
+    Object.values(menuData).forEach((categoryItems) => {
+      allItems.push(...categoryItems);
+    });
+    setMenu(allItems);
+  }, []);
 
   const handleCategoryClick = (category) => {
     if (category === "all") {

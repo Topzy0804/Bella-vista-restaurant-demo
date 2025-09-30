@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import Menu from "./pages/Menu";
 import Order from "./pages/Order";
 import BuildMenu from "./pages/Build-menu";
+import About from "./pages/About";
 
 import Header from "./components/Header";
 import Footer from "./components/footer";
@@ -18,6 +19,7 @@ function App() {
         <Route path="/menu" element={<Menu />} />
         <Route path="/order" element={<Order />} />
         <Route path="/build-menu" element={<BuildMenu />} />
+        <Route path="/about" element={<About />} />
       </Routes>
       <Footer />
     </BrowserRouter>
