@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -9,24 +9,44 @@ const Header = () => {
         </div>
         <ul className="nav-menu">
           <li className="nav-item">
-            <Link to="/" className="nav-link">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
               Home
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/menu" className="nav-link">
+            <NavLink
+              to="/menu"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
               Menu
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/order" className="nav-link">
+            <NavLink
+              to="/order"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
               Order
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/build-menu" className="nav-link">
+            <NavLink
+              to="/build-menu"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
               Build Menu
-            </Link>
+            </NavLink>
           </li>
         </ul>
         <div className="hamburger">
