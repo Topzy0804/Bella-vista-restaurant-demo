@@ -5,7 +5,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleHamburgerClick = () => {
-    setMenuOpen((prev) => !prev);
+    setMenuOpen(!menuOpen);
   };
 
   return (
@@ -14,7 +14,7 @@ const Header = () => {
         <div className="nav-logo">
           <h2>Bella Vista</h2>
         </div>
-        <ul className={`nav-menu${menuOpen ? " open" : ""}`}>
+        <ul className={`nav-menu ${menuOpen ? " active" : ""}`}>
           <li className="nav-item">
             <NavLink
               to="/"
@@ -61,7 +61,7 @@ const Header = () => {
           </li>
         </ul>
         <div
-          className={`hamburger${menuOpen ? " open" : ""}`}
+          className={`hamburger`}
           onClick={handleHamburgerClick}
         >
           <span className="bar"></span>
