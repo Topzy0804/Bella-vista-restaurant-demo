@@ -1,19 +1,27 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleHamburgerClick = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
   return (
     <nav className="navbar">
       <div className="nav-container">
         <div className="nav-logo">
           <h2>Bella Vista</h2>
         </div>
-        <ul className="nav-menu">
+        <ul className={`nav-menu${menuOpen ? " open" : ""}`}>
           <li className="nav-item">
             <NavLink
               to="/"
               className={({ isActive }) =>
                 isActive ? "nav-link active" : "nav-link"
               }
+              onClick={() => setMenuOpen(false)}
             >
               Home
             </NavLink>
@@ -24,6 +32,7 @@ const Header = () => {
               className={({ isActive }) =>
                 isActive ? "nav-link active" : "nav-link"
               }
+              onClick={() => setMenuOpen(false)}
             >
               Menu
             </NavLink>
@@ -34,6 +43,7 @@ const Header = () => {
               className={({ isActive }) =>
                 isActive ? "nav-link active" : "nav-link"
               }
+              onClick={() => setMenuOpen(false)}
             >
               Order
             </NavLink>
@@ -44,12 +54,16 @@ const Header = () => {
               className={({ isActive }) =>
                 isActive ? "nav-link active" : "nav-link"
               }
+              onClick={() => setMenuOpen(false)}
             >
               Build Menu
             </NavLink>
           </li>
         </ul>
-        <div className="hamburger">
+        <div
+          className={`hamburger${menuOpen ? " open" : ""}`}
+          onClick={handleHamburgerClick}
+        >
           <span className="bar"></span>
           <span className="bar"></span>
           <span className="bar"></span>
