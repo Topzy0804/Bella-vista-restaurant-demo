@@ -7,6 +7,7 @@ import Order from "./pages/Order";
 import BuildMenu from "./pages/Build-menu";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import NewMenuItem from "./pages/NewMenu";
 
 import Header from "./components/Header";
 import Footer from "./components/footer";
@@ -22,6 +23,7 @@ function App() {
         <Route path="/build-menu" element={<BuildMenu />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/new-menu" element={<NewMenuItem />} />
       </Routes>
       <Footer />
     </BrowserRouter>

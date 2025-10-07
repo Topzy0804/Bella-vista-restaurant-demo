@@ -27,6 +27,9 @@ const Footer = () => {
               <li>
                 <NavLink to="/contact">Contact</NavLink>
               </li>
+              <li>
+                <NavLink to="/new-menu">New-menu</NavLink>
+              </li>
             </ul>
           </div>
           <div className="footer-section">

@@ -1,6 +1,9 @@
 import "./../css/contact.css";
 
 const Contact = () => {
+
+
+    
   return (
       <main>
         <section className="contact-hero">
