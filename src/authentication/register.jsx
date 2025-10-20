@@ -1,107 +1,119 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { account, id } from "./../lib/appwrite";
+
 const Register = () => {
-  const [form, setForm] = useState({
-    name: "",
+  const [registerDetails, setRegisterDetails] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setError("");
-    setSuccess("");
+  const handleUpdate = (e) => {
+    setRegisterDetails({ ...registerDetails, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simple validation
-    if (!form.name || !form.email || !form.password || !form.confirmPassword) {
-      setError("Please fill in all fields.");
+    if (registerDetails.password !== registerDetails.confirmPassword) {
+      alert("Passwords do not match");
       return;
     }
-    if (form.password !== form.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
+
+    try {
+      let fullName = `${registerDetails.firstName} ${registerDetails.lastName}`;
+      await account.create({
+        userId: id.unique(),
+        email: registerDetails.email,
+        password: registerDetails.password,
+        name: fullName,
+      });
+      alert("Registration successful! Please login.");
+      setRegisterDetails({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.log(error);
     }
-    // TODO: Add registration logic here
-    setSuccess("Registration successful!");
-    setForm({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
   };
 
   return (
-    <main className="container" style={{ maxWidth: 400, margin: "50px auto", padding: "2rem 0" }}>
-      <h2 className="mb-16">Register</h2>
-      <form onSubmit={handleSubmit} className="form-group">
-        <div className="option-group mb-16">
-          <label htmlFor="name">Name</label>
+    <div style={{ maxWidth: "400px", margin: "100px auto", padding: "20px" }}>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="firstName">First Name:</label>
           <input
             className="form-input"
             type="text"
-            id="name"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Enter your name"
+            id="firstName"
+            name="firstName"
+            onChange={handleUpdate}
             required
           />
         </div>
-        <div className="option-group mb-16">
-          <label htmlFor="email">Email</label>
+        <div className="form-group">
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            className="form-input"
+            type="text"
+            id="lastName"
+            name="lastName"
+            onChange={handleUpdate}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
           <input
             className="form-input"
             type="email"
             id="email"
             name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
+            onChange={handleUpdate}
             required
           />
         </div>
-        <div className="option-group mb-16">
-          <label htmlFor="password">Password</label>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
           <input
             className="form-input"
             type="password"
             id="password"
             name="password"
-            value={form.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
+            onChange={handleUpdate}
             required
           />
         </div>
-        <div className="option-group mb-16">
-          <label htmlFor="confirmPassword">Confirm Password</label>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
           <input
             className="form-input"
             type="password"
             id="confirmPassword"
             name="confirmPassword"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            placeholder="Confirm your password"
+            onChange={handleUpdate}
             required
           />
         </div>
-        {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
-        {success && <div style={{ color: "green", marginBottom: 12 }}>{success}</div>}
-        <p>Already have an account? <Link to="/authentication/login">Login</Link></p>
+        <p>
+          Already have an account?
+          <Link to="/auth/login" className="nav-link">
+            {" "}
+            Login here.{" "}
+          </Link>
+        </p>
         <button className="btn btn-primary" type="submit">
           Register
         </button>
       </form>
-    </main>
+    </div>
   );
 };
 

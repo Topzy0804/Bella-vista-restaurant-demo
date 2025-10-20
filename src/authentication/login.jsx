@@ -1,63 +1,67 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { account } from "./../lib/appwrite";
 
 const Login = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const [loginDetails, setLoginDetails] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setError("");
+  const handleUpdate = (e) => {
+    setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simple validation
-    if (!form.email || !form.password) {
-      setError("Please fill in all fields.");
-      return;
+
+    try {
+      await account.createEmailPasswordSession(loginDetails);
+      navigate("/admin/dashboard");
+    } catch (error) {
+      console.log(error);
     }
-    // TODO: Add authentication logic here
-    alert(`Logged in as: ${form.email}`);
   };
 
   return (
-    <main className="container" style={{ maxWidth: 400, margin: "50px auto", padding: "2rem 0" }}>
-      <h2 className="mb-16">Login</h2>
-      <form onSubmit={handleSubmit} className="form-group">
-        <div className="option-group mb-16">
-          <label htmlFor="email">Email</label>
+    <div style={{ maxWidth: "400px", margin: "100px auto", padding: "20px" }}>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
           <input
             className="form-input"
             type="email"
             id="email"
             name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
+            onChange={handleUpdate}
             required
           />
         </div>
-        <div className="option-group mb-16">
-          <label htmlFor="password">Password</label>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
           <input
             className="form-input"
             type="password"
             id="password"
             name="password"
-            value={form.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
+            onChange={handleUpdate}
             required
           />
         </div>
-        {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
-        <p>Don't have an account? <Link to="/authentication/register">Register</Link></p>
+        <p>
+          Don't have an account?
+          <Link to="/auth/register" className="nav-link">
+            {" "}
+            Register here.{" "}
+          </Link>
+        </p>
         <button className="btn btn-primary" type="submit">
           Login
         </button>
       </form>
-    </main>
+    </div>
   );
 };
 
