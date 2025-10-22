@@ -1,15 +1,19 @@
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { account } from "./../../lib/appwrite";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
 
   const handleLogOut = async () => {
     // Logic for logging out the user
     await account.deleteSession({
       sessionId: "current",
     });
+    setUser(null);
     navigate("/authentication/login");
   };
 

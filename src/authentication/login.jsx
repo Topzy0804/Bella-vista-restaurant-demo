@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 import { account } from "./../lib/appwrite";
 
 const Login = () => {
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [loginDetails, setLoginDetails] = useState({
     email: "",
@@ -18,7 +20,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      await account.createEmailPasswordSession(loginDetails);
+      const user = await account.createEmailPasswordSession(loginDetails);
+      setUser(user);
       navigate("/admin/dashboard");
     } catch (error) {
       console.log(error);

@@ -15,6 +15,7 @@ import NewMenuItem from "./pages/NewMenu";
 
 import Login from "./authentication/login";
 import Register from "./authentication/register";
+import PublicRoute from "./authentication/PublicRoute";
 
 import Dashboard from "./admin/pages/dashboard"; 
 import Customers from "./admin/pages/customer";
@@ -40,11 +41,11 @@ function App() {
 
     <BrowserRouter>
     <Routes>
-      <Route path="/authentication">
+      <Route path="/authentication" element={<PublicRoute />}>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>
-      <Route path="admin" element={<AdminLLayout />}>
+      <Route path="/admin" element={<AdminLLayout />}>
         <Route path="dashboard" element={<Dashboard user={user} />} />
         <Route path="menu-management" element={<MenuManagement user={user} />} />
         <Route path="orders" element={<Orders user={user} />} />

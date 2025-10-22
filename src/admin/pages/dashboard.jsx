@@ -1,8 +1,4 @@
-import { useContext } from "react";
-import { UserContext } from "./../../context/UserContext";
-
 const Dashboard = () => {
-  const { user } = useContext(UserContext);
 
   return (
     <>
@@ -14,14 +10,6 @@ const Dashboard = () => {
               Welcome back! Here's what's happening at your restaurant today.
             </p>
           </div>
-
-          <div className="admin-header">
-            <h3>User Name {user && user.name}</h3>
-          </div>
-          <div className="admin-header">
-            <h5>User Email {user && user.email}</h5>
-          </div>
-
           <div className="stats-grid">
             <div className="stat-card">
               <div className="stat-icon">📊</div>

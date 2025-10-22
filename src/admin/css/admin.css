@@ -348,8 +348,7 @@
 }
 
 /* Modal Styles */
-.modal {
-    display: none;
+.modal {    
     position: fixed;
     z-index: 2000;
     left: 0;
@@ -363,11 +362,13 @@
 .modal-content {
     background-color: var(--white);
     margin: 5% auto;
-    padding: 0;
+    padding: 10px 30px;
     border-radius: 16px;
     width: 90%;
-    max-width: 600px;
+    height: calc(100% - 100px);
+    max-width: 700px;
     box-shadow: var(--shadow-xl);
+    overflow-x: auto;
     animation: modalSlideIn 0.3s ease-out;
 }
 
