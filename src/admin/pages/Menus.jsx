@@ -1,12 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NewMenu from "../components/Modal/NewMenu";
+import MenuItem from "../../components/menu/MenuItem";
+import { getRows } from "../../utils/db";
 
 const Menu = () => {
   const [openMenuModal, setOpenMenuModal] = useState(false);
+  const [menu, setMenu] = useState([]);
 
   const handleOpenMenuModal = () => {
     setOpenMenuModal(true);
   };
+
+  useEffect(()=> {
+      const fetchMenuItems = async () => {
+        try {
+          const response = await getRows(import.meta.env.VITE_MENU_TABLE_ID);
+          setMenu(response.rows);
+        } catch (error) {
+          console.error("Error fetching menu items:", error);
+        }
+      };
+
+      fetchMenuItems();
+  },[])
 
   return (
     <>
@@ -44,6 +60,7 @@ const Menu = () => {
 
           <div className="menu-management-grid" id="menuManagementGrid">
             {/* <!-- Menu items will be populated here --> */}
+            {menu.length > 0 && <MenuItem menu={menu} />}
           </div>
         </div>
       </main>
