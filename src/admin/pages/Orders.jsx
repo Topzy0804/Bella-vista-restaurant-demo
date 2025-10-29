@@ -1,4 +1,28 @@
+import { getRows } from "../../utils/db";
+
+import { useState, useEffect } from "react";
+import OrderItem from "./order/orderItem";
+
+
 const Orders = ({user}) => {
+
+
+  const [orders, setOrders] = useState([]);
+  
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+
+        const response = await getRows(import.meta.env.VITE_ORDERS_TABLE_ID);
+        // Process and display orders
+        setOrders(response.rows);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+    console.log("User in Orders page:", user);
+    fetchOrders();
+  }, []);
   return (
     <main className="admin-main">
       <div className="admin-container">
@@ -45,6 +69,7 @@ const Orders = ({user}) => {
           {/* <!-- Orders will be populated here --> */}
         </div>
       </div>
+      {orders.length > 0 && <OrderItem orders={orders} />}
     </main>
   );
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { getRows } from "../utils/db";
+import { createRows } from "../utils/db";
 
 import "./order.css";
 
@@ -30,7 +31,7 @@ const Order = () => {
 
   const addNewCustomerDetails = async (e) => {
     try {
-      e.preventDefault();
+      // e.preventDefault();
       const newCustomerDetails = {
         name: customerFormData.name,
         email: customerFormData.email,
@@ -51,14 +52,14 @@ const Order = () => {
   };
 
   const [orderData, setOrderData] = useState({
-    items: [],
-    status: "pending",
-    customerDetails: {},
+    items: "",
+    status: "",
+    customerDetails: "",
   });
 
   const addOrderDetail = async (e) => {
     try {
-      e.preventDefault();
+      // e.preventDefault();
       const newOrder = {
         items: orderData.items,
         status: orderData.status,
@@ -107,9 +108,6 @@ const Order = () => {
     }
 
 
-
-    
-
     const cartData = menu.find((item) => item.$id === itemId);
     const newCartItem = {
       $id: cartData.$id,
@@ -120,6 +118,41 @@ const Order = () => {
     };
     setCartItems((prevItems) => [...prevItems, newCartItem]);
     setcartAdded(true);
+  };
+
+  const handleCheckout = async (e) => {
+    // Logic to handle checkout process
+    e.preventDefault();
+
+    try {
+      const newCustomer = {
+        name: customerFormData.name,
+        email: customerFormData.email,
+        address: customerFormData.address,
+        phone: customerFormData.phone,
+      };
+      const customerDetails = await createRows(import.meta.env.VITE_CUSTOMER_DETAILS_TABLE_ID, newCustomer);
+      // console.log(newCustomer);
+
+
+
+    const OrderSummary = {
+      items: cartItems.map((item)=> JSON.stringify(item)),
+      customerDetails: customerDetails.$id,
+    };
+    console.log(cartItems.map((item)=> JSON.stringify(item)))
+
+    // console.log(OrderSummary)
+    await createRows(import.meta.env.VITE_ORDER_TABLE_ID, OrderSummary);
+
+    // Clear cart and reset form
+    setCartItems([]);
+    setSubtotal(0);
+    setTax(0);
+    setTotal(0);
+  } catch (error) {
+      console.error("Error during checkout:", error);
+    }
   };
 
   const handleRemoveFromCart = (itemId) => {
@@ -239,6 +272,10 @@ const Order = () => {
                         type="text"
                         id="CustomerName"
                         name="CustomerName"
+                        value={customerFormData.name}
+                        onChange={(e) =>
+                          setCustomerFormData({ ...customerFormData, name: e.target.value })
+                        }
                         required
                       />
                     </div>
@@ -249,6 +286,10 @@ const Order = () => {
                         type="email"
                         id="customerEmail"
                         name="customerEmail"
+                        value={customerFormData.email}
+                        onChange={(e) =>
+                          setCustomerFormData({ ...customerFormData, email: e.target.value })
+                        }
                         required
                       />
                     </div>
@@ -259,6 +300,10 @@ const Order = () => {
                         type="text"
                         id="customerphone"
                         name="customerphone"
+                        value={customerFormData.phone}
+                        onChange={(e) =>
+                          setCustomerFormData({ ...customerFormData, phone: e.target.value })
+                        }
                         required
                       />
                     </div>
@@ -269,6 +314,10 @@ const Order = () => {
                         type="text"
                         id="customerAddress"
                         name="customerAddress"
+                        value={customerFormData.address}
+                        onChange={(e) =>
+                          setCustomerFormData({ ...customerFormData, address: e.target.value })
+                        }
                         required
                       />
                     </div>
@@ -295,7 +344,12 @@ const Order = () => {
                   className="btn btn-primary checkout-btn"
                   id="checkoutBtn"
                   disabled={cartItems.length == 0}
-                  
+                  type="submit"
+                  onClick={handleCheckout}
+                  // setCartItems([]);
+                  // setSubtotal(0);
+                  // setTax(0);
+                  // setTotal(0);
                 >
                   Proceed to Payment
                 </button>

@@ -55,7 +55,7 @@ const Login = () => {
         </div>
         <p>
           Don't have an account?
-          <Link to="/auth/register" className="nav-link">
+          <Link to="/authentication/register" className="nav-link">
             {" "}
             Register here.{" "}
           </Link>
