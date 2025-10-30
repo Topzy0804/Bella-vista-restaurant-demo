@@ -13,7 +13,7 @@ const Orders = ({user}) => {
     const fetchOrders = async () => {
       try {
 
-        const response = await getRows(import.meta.env.VITE_ORDERS_TABLE_ID);
+        const response = await getRows(import.meta.env.VITE_ORDER_TABLE_ID);
         // Process and display orders
         setOrders(response.rows);
       } catch (error) {
@@ -23,6 +23,7 @@ const Orders = ({user}) => {
     console.log("User in Orders page:", user);
     fetchOrders();
   }, []);
+
   return (
     <main className="admin-main">
       <div className="admin-container">
@@ -30,7 +31,7 @@ const Orders = ({user}) => {
           <h1>Order Management</h1>
           <div className="order-stats">
             <span className="stat-badge pending" id="pendingCount">
-              0 Pending
+              {} Pending
             </span>
             <span className="stat-badge confirmed" id="confirmedCount">
               0 Confirmed
@@ -48,7 +49,7 @@ const Orders = ({user}) => {
         </div>
         <div className="order-filters">
           <div className="filter-group">
-            <label for="statusFilter">Filter by Status:</label>
+            <label htmlFor="statusFilter">Filter by Status:</label>
             <select id="statusFilter" className="form-select">
               <option value="all">All Orders</option>
               <option value="pending">Pending</option>
@@ -60,16 +61,17 @@ const Orders = ({user}) => {
             </select>
           </div>
           <div className="filter-group">
-            <label for="dateFilter">Date:</label>
+            <label htmlFor="dateFilter">Date:</label>
             <input type="date" id="dateFilter" className="form-input" />
           </div>
         </div>
 
         <div className="orders-grid" id="ordersGrid">
           {/* <!-- Orders will be populated here --> */}
+      {orders.length > 0 && <OrderItem orders={orders} />}
+          
         </div>
       </div>
-      {orders.length > 0 && <OrderItem orders={orders} />}
     </main>
   );
 };

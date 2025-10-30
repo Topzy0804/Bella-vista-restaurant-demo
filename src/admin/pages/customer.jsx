@@ -1,4 +1,26 @@
+import { getRows } from "../../utils/db";
+import { useState, useEffect } from "react";
+import CustomerDetails from "./order/customerDetails";
+
+
+
+
 const Customer = ({user}) => {
+
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const response = await getRows(import.meta.env.VITE_CUSTOMER_DETAILS_TABLE_ID);
+        setCustomers(response.rows);
+      } catch (error) {
+        console.error("Error fetching customers:", error);
+      }
+    };
+    fetchCustomers();
+  }, []);
+
   return (
     <main className="admin-main">
       <div className="admin-container">
@@ -54,7 +76,9 @@ const Customer = ({user}) => {
               </tr>
             </thead>
             <tbody id="customersTableBody">
-              {/* <!-- Customer data will be populated by JavaScript --> */}
+              {customers.length > 0 && customers.map((customer) => (
+                <CustomerDetails key={customer.$id} customer={customer} />
+              ))}
             </tbody>
           </table>
         </div>

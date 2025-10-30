@@ -146,6 +146,7 @@ const Order = () => {
     await createRows(import.meta.env.VITE_ORDER_TABLE_ID, OrderSummary);
 
     // Clear cart and reset form
+    alert("Order placed successfully!");
     setCartItems([]);
     setSubtotal(0);
     setTax(0);
